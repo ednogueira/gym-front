@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
 import Container from '@material-ui/core/Container';
-
-
-
-import NavBar from "./components/navbar.component";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 //import Home from "./components/home.component";
 import Profile from "./components/profile.component";
+import MenuBar from "./components/menu.component";
 
 //import BoardUser from "./components/board-user.component";
 //import BoardModerator from "./components/board-moderator.component";
@@ -22,7 +19,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <NavBar />
+          <MenuBar />
           <Container>
             <Switch>
               {/* <Route exact path={["/", "/home"]} component={Home} /> */}
