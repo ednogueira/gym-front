@@ -1,16 +1,14 @@
 import axios from 'axios';
 import authHeader from './auth-header';
-import qs from 'qs';
 
-//const qs = require('qs');
 const API_URL = '/api/';
 
-let axiosConfig = {
+/* let axiosConfig = {
   headers: {
       'Content-Type': 'application/json;charset=UTF-8',
       "Access-Control-Allow-Origin": "*",
   }
-};
+}; */
 
 class ApiService {
   getPublicContent() {
@@ -47,12 +45,6 @@ class ApiService {
 
   addCliente(cliente){
     return axios.post(""+API_URL + 'clientes/criar/' + cliente, {headers : {'content-type': 'application/x-www-form-urlencoded'} })
-    .then(response => { 
-      console.log(response)
-    })
-    .catch(error => {
-      console.log(error.response)
-    });
   }
 
   editCliente(cliente){

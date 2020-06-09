@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom'
-import React, { Component } from "react";
+import React from "react";
 import ListClientes from "../components/clientes/lista-clientes-component";
 import Login from "../components/users/login-component";
 import Register from "../components/users/register-component";

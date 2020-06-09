@@ -141,7 +141,7 @@ const MenuBar = props => {
     ];
 
 
-  const [menu, setMenu] = useState();
+  //const [menu, setMenu] = useState();
   const [showRecepcionistaBoard, setShowRecepcionistaBoard] = useState(false);
   const [showGerenteBoard, setShowGerenteBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
