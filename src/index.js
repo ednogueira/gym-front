@@ -4,11 +4,14 @@ import './index.css';
 import { BrowserRouter } from "react-router-dom";
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { SnackbarProvider } from 'notistack';
 
 
 ReactDOM.render(
   <BrowserRouter>
-    <App />
+    <SnackbarProvider>
+      <App />
+    </SnackbarProvider>
   </BrowserRouter>,
   document.getElementById('root')
 );

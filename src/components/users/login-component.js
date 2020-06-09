@@ -4,7 +4,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import AuthService from "../services/auth.service";
+import AuthService from "../../services/auth.service";
 
 const required = value => {
   if (!value) {

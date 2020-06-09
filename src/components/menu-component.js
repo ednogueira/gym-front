@@ -16,13 +16,16 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-import AuthService from '../services/auth.service';
+import AuthService from "../services/auth.service";
 import PersonIcon from '@material-ui/icons/Person';
 import SchoolIcon from '@material-ui/icons/School';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import BuildIcon from '@material-ui/icons/Build';
+import HomeIcon from '@material-ui/icons/Home';
+import {withRouter} from "react-router-dom";
+
 
 const drawerWidth = 240;
 
@@ -101,7 +104,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer() {
+
+// export default function MiniDrawer() {
+const MenuBar = props => {  
+  const { history} = props;
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -114,9 +120,30 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+    const home = () => history.push('/');
+
+    const itemsList = [
+      {
+        text: "Clientes",
+        icon: <PersonIcon />,
+        onClick: () => history.push('/clientes')
+      },
+      {
+        text: "Instrutores",
+        icon: <SchoolIcon />,
+        onClick: () => history.push("/")
+      },
+      {
+        text: "Aulas",
+        icon: <FitnessCenterIcon />,
+        onClick: () => history.push("/")
+      }
+    ];
+
+
   const [menu, setMenu] = useState();
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [showRecepcionistaBoard, setShowRecepcionistaBoard] = useState(false);
+  const [showGerenteBoard, setShowGerenteBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
   const logOut = useCallback(
       () => {
@@ -131,8 +158,8 @@ export default function MiniDrawer() {
             if (user) 
                 {
                     setCurrentUser(user);
-                    setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-                    setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+                    setShowRecepcionistaBoard(user.roles.includes("ROLE_RECEPCIONISTA"));
+                    setShowGerenteBoard(user.roles.includes("ROLE_GERENTE"));
                 }
         },[]);
 
@@ -164,7 +191,7 @@ export default function MiniDrawer() {
           </Typography>
           {currentUser ? (
             <div margin-right="auto">
-                <Button color="inhdeerit" href="/profile">
+                <Button color="inherit" href="/profile">
                     {currentUser.username}
                 </Button>
                 <Button className="toolbarButtons" color="inherit" href="/login" onClick={logOut}>
@@ -203,37 +230,51 @@ export default function MiniDrawer() {
         </div>
         <Divider />
         <List>
-          {['Clientes', 'Instrutores', 'Aulas', 'Relatórios'].map((text, index) => (
-            <ListItem button key={text}>
+        {['Home'].map((text, index) => (
+            <ListItem button key={text} onClick={home}>
                 <ListItemIcon>
-                    {index === 0 && <PersonIcon />}
-                    {index === 1 && <SchoolIcon />}
-                    {index === 2 && <FitnessCenterIcon />}
-                    {index === 3 && <AssessmentIcon />}
+                    {index === 0 && <HomeIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
         <Divider />
+        {(showRecepcionistaBoard || showGerenteBoard) && (
         <List>
-          {['Avaliação Física', 'Administração'].map((text, index) => (
+          {itemsList.map((item, index) => {
+            const { text, icon, onClick } = item;
+            return (
+                      <ListItem button key={text} onClick={onClick}>
+                        {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                      <ListItemText primary={text} />
+                      </ListItem>
+            );
+          })}
+        </List>
+        )}
+        <Divider />
+        {showGerenteBoard && (
+        <List>
+          {['Relatórios','Avaliação Física', 'Administração'].map((text, index) => (
             <ListItem button key={text}>
                 <ListItemIcon>
-                    {index === 0 && <FavoriteIcon />}
-                    {index === 1 && <BuildIcon />}
+                    {index === 0 && <AssessmentIcon />}
+                    {index === 1 && <FavoriteIcon />}
+                    {index === 2 && <BuildIcon />}
                 </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
+        )}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
-            TESTE!
         </Typography>
       </main>
     </div>
   );
 }
+export default withRouter(MenuBar);
