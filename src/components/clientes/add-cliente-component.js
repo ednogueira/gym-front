@@ -182,11 +182,12 @@ class AddClienteComponent extends Component {
                     <br/><br/><br/><br/><br/><br/>
                     
                 </form>
-                <Button variant="contained" color="primary" onClick={this.saveCliente}>Save</Button>
+                <Button variant="contained" color="primary" onClick={this.saveCliente}>Salvar</Button>
             </div>
         );
     }
 }
+
 
 const formContainer = {
     display: 'flex',

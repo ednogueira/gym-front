@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import ApiService from "../../services/api-service";
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { withSnackbar } from 'notistack';
+import EditIcon from '@material-ui/icons/Edit';
+import DadosTabs from "../dados-tab-component";
 
 function estadoToFlag(isoCode) {
     return typeof String.fromCodePoint !== 'undefined'
@@ -14,7 +15,7 @@ function estadoToFlag(isoCode) {
       : isoCode;
   }
 
-class EditClienteComponent extends Component {
+class ViewClienteComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -36,7 +37,8 @@ class EditClienteComponent extends Component {
             validadePlano: ''
             
         }
-        this.saveCliente = this.saveCliente.bind(this);
+        //this.saveCliente = this.saveCliente.bind(this);
+        this.editCliente = this.editCliente.bind(this);
         this.loadCliente = this.loadCliente.bind(this);
     }
 
@@ -68,37 +70,11 @@ class EditClienteComponent extends Component {
             })
     }
 
-
-
-    saveCliente = (e) => {
-        e.preventDefault();
-        const endereco = { cep: this.state.cep, rua: this.state.rua, numero: this.state.numero, complemento: this.state.complemento, 
-            bairro: this.state.bairro, cidade: this.state.cidade, uf: this.state.uf,}
-        const cliente = { id: this.state.id, nome: this.state.nome, sobrenome: this.state.sobrenome, cpf: this.state.cpf, rg: this.state.rg,  
-            telefone: this.state.telefone, tipoPlano: this.state.tipoPlano, endereco: endereco, validadePlano: this.state.validadePlano};
-        console.log(cliente);
-        ApiService.editCliente(cliente)
-            .then(res => {
-                this.setState({ message: 'Cliente editado com sucesso.' });
-                this.props.enqueueSnackbar('Cliente editado com sucesso.', {
-                    variant: 'success',
-                    anchorOrigin: {
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                    }
-                })
-                this.props.history.push('/clientes');
-            })
-            .catch(
-                () => this.props.enqueueSnackbar('Não foi possível adicionar o cliente.', {
-                    variant: 'error',
-                    anchorOrigin: {
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                    }
-                }
-            ));
+    editCliente(id) {
+        window.localStorage.setItem("clienteId", id);
+        this.props.history.push('/edit-cliente');
     }
+
 
     getSelectedItem(){
         const item = estados.find((opt) => {
@@ -121,57 +97,71 @@ class EditClienteComponent extends Component {
 
         return (
             <div>
-                <Typography variant="h4" style={style}>Editar Cliente</Typography>
+                <div style={{ margin: "auto", width: "60%", padding: "10px"}}>
+                <DadosTabs/>
+                </div>
+
+                {/* <Typography variant="h4" style={style}>Dados do Cliente</Typography> */}
+
                 <form style={formContainer}>
 
-                    <TextField label="Nome" fullWidth margin="normal" name="nome" required autoFocus="true" value={this.state.nome} 
+                    <TextField label="Matricula" margin="normal" name="id" value={this.state.id} 
                         style={{ height }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }),},}}
-                        inputProps={{ style: { height, padding: '0 14px',},}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px',},}}
+                    onChange={this.onChange} />
+                    <div style={{  position: "absolute", right: 400}}>
+                        <Fab color="primary" aria-label="add" onClick={() => this.editCliente(this.state.id)}>
+                            <EditIcon />
+                        </Fab>
+                    </div>
+                    <TextField label="Nome" fullWidth margin="normal" name="nome" value={this.state.nome} 
+                        style={{ height }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }),},}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px',},}}
                     onChange={this.onChange} />
 
-                    <TextField label="Sobrenome" fullWidth margin="normal" name="sobrenome" required value={this.state.sobrenome} 
+                    <TextField label="Sobrenome" fullWidth margin="normal" name="sobrenome" value={this.state.sobrenome} 
                         style={{ height }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }),},}}
-                        inputProps={{ style: { height, padding: '0 14px',},}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px',},}}
                     onChange={this.onChange} />
 
-                    <TextField label="CPF" margin="normal" name="cpf" required value={this.state.cpf} 
+                    <TextField label="CPF" margin="normal" name="cpf" value={this.state.cpf} 
                         style={{ height, width: '30%'}} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }),},}}
-                        inputProps={{ style: { height, padding: '0 14px',}, minlength: 11, maxlength: 11}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px',}, minlength: 11, maxlength: 11}}
                     onChange={this.onChange} />
 
-                    <TextField label="RG"  margin="normal" name="rg" required value={this.state.rg} 
+                    <TextField label="RG"  margin="normal" name="rg" value={this.state.rg} 
                         style={{ height, marginLeft: 10, width: '30%'  }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }),},}}
-                        inputProps={{ style: { height, padding: '0 14px',},maxlength: 12}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px',},maxlength: 12}}
                     onChange={this.onChange} />
 
-                    <TextField label="Rua" fullWidth margin="normal" name="rua" required value={this.state.rua}
+                    <TextField label="Rua" fullWidth margin="normal" name="rua" value={this.state.rua}
                         style={{ height, width: '75%'}} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                        inputProps={{ style: { height, padding: '0 14px', },}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px', },}}
                         onChange={this.onChange} />
 
-                    <TextField label="Numero" margin="normal" name="numero" required value={this.state.numero}
+                    <TextField label="Numero" margin="normal" name="numero" value={this.state.numero}
                         style={{ height, marginLeft: 10, width: '24%'}} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                        inputProps={{ style: { height, padding: '0 14px', },}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px', },}}
                         onChange={this.onChange} /> 
                     
                     <TextField label="Complemento" margin="normal" name="complemento" value={this.state.complemento}
                         style={{ height, width: '39%'}} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                        inputProps={{ style: { height, padding: '0 14px', },}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px', },}}
                         onChange={this.onChange} />
 
-                    <TextField type="number" label="CEP" margin="normal" name="cep" required value={this.state.cep}
+                    <TextField type="number" label="CEP" margin="normal" name="cep" value={this.state.cep}
                         style={{ height, marginLeft: 10, width: '19%' }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                        inputProps={{ style: { height, padding: '0 14px', }, min:0}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px', }, min:0}}
                         onChange={this.onChange} />
 
-                    <TextField label="Bairo" margin="normal" name="bairro" required value={this.state.bairro}
+                    <TextField label="Bairo" margin="normal" name="bairro" value={this.state.bairro}
                         style={{ height, marginLeft: 10, width: '40%' }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                        inputProps={{ style: { height, padding: '0 14px', },}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px', },}}
                         onChange={this.onChange} />
 
-                    <TextField label="Cidade" margin="normal" name="cidade" required value={this.state.cidade}
+                    <TextField label="Cidade" margin="normal" name="cidade" value={this.state.cidade}
                         style={{ height, width: '75%' }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                        inputProps={{ style: { height, padding: '0 14px', },}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px', },}}
                         onChange={this.onChange} />
 
                     <Autocomplete
@@ -184,8 +174,10 @@ class EditClienteComponent extends Component {
                             option: classes.option,
                           }}
                         InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                        inputProps={{ style: { height, padding: '0 14px', },}}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px', },}}
                         autoHighlight
+                        disabled
+                        disableClearable
                         margin="normal"
                         getOptionLabel={(option) => option.label}
                         renderOption={(option) => (
@@ -200,29 +192,30 @@ class EditClienteComponent extends Component {
                                 id="uf"
                                 name="uf"
                                 style={{height}}
+                                disabled
+                                disableClearable
                                 margin="normal"
                                 value={this.state.uf}
-                                required
                                 label="Selecione o estado"
                                 InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
                                 inputProps={{
                                     ...params.inputProps,
                                     autoComplete: 'new-password',
-                                    style: { height, padding: '0 14px', },
+                                    readOnly: true, style: { height, padding: '0 14px', },
                                 }}
                             />
                         )}
                     />
 
-                    <TextField type="number" label="Telefone" margin="normal" name="telefone" required value={this.state.telefone}
+                    <TextField type="number" label="Telefone" margin="normal" name="telefone" value={this.state.telefone}
                         style={{ height, width: '35%' }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                        inputProps={{ style: { height, padding: '0 14px', }, min: 0 }}
+                        inputProps={{ readOnly: true, style: { height, padding: '0 14px', }, min: 0 }}
                         onChange={this.onChange} />
 
                     <br/><br/><br/><br/><br/><br/>
                     
                 </form>
-                <Button variant="contained" color="primary" onClick={this.saveCliente}>Salvar</Button>
+
             </div>
         );
     }
@@ -291,4 +284,4 @@ const estados = [
   ];
 
 
-export default withSnackbar(EditClienteComponent);
+export default withSnackbar(ViewClienteComponent);

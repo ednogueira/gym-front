@@ -3,13 +3,6 @@ import authHeader from './auth-header';
 
 const API_URL = '/api/';
 
-/* let axiosConfig = {
-  headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      "Access-Control-Allow-Origin": "*",
-  }
-}; */
-
 class ApiService {
   getPublicContent() {
     return axios.get(API_URL + 'all');
@@ -44,11 +37,11 @@ class ApiService {
   }
 
   addCliente(cliente){
-    return axios.post(""+API_URL + 'clientes/criar/' + cliente, {headers : {'content-type': 'application/x-www-form-urlencoded'} })
+    return axios.post(API_URL + 'clientes/criar/', cliente, {headers : authHeader()})
   }
 
   editCliente(cliente){
-    return axios.put(API_URL + 'clientes/' + cliente, {headers : authHeader() });
+    return axios.put(API_URL + 'clientes/', cliente, {headers : authHeader() });
   }
 
 
