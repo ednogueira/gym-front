@@ -20,6 +20,8 @@ class ApiService {
     return axios.get(API_URL + 'admin', { headers: authHeader() });
   }
 
+  /* SERVIÇOS DISPONÍVEIS PARA CONSULTA E GESTÃO DO MODELO: CLIENTE */
+
   fetchClientes() {
     return axios.get(API_URL + 'clientes/modificados', {headers : authHeader() });
   }
@@ -42,6 +44,32 @@ class ApiService {
 
   editCliente(cliente){
     return axios.put(API_URL + 'clientes/', cliente, {headers : authHeader() });
+  }
+
+  /* SERVIÇOS DISPONÍVEIS PARA CONSULTA E GESTÃO DO MODELO: PAGAMENTO */
+
+  fetchPagamentos(clienteId) {
+    return axios.get(API_URL + 'pagamentos/' +clienteId, {headers : authHeader() });
+  }
+
+  fetchPagamentoById(pagamentoId) {
+    return axios.get(API_URL + 'pagamentos?idPagamento=' + pagamentoId, {headers : authHeader() });
+  }
+
+  fetchPagamentoByDate(dataFinal, dataInicial, clienteId) {
+    return axios.get(API_URL + 'pagamentos/buscar?dataFinal=' + dataFinal + '&dataInicial=' + dataInicial + '&idCliente=' + clienteId, {headers : authHeader() });
+  }
+
+  deletePagamento(pagamentoId){
+    return axios.delete(API_URL + 'pagamentos/delete/' + pagamentoId, {headers : authHeader() });
+  }
+
+  addPagamento(clienteId, plano, pagamento){
+    return axios.post(API_URL + 'pagamentos?idCliente=' + clienteId + '&plano=' + plano, pagamento, {headers : authHeader()})
+  }
+
+  editPagamento(idPagamento, idCliente, plano, pagamento){
+    return axios.put(API_URL + 'pagamentos/' + idPagamento + '?idCliente=' + idCliente + '&plano=' + plano, pagamento, {headers : authHeader() });
   }
 
 

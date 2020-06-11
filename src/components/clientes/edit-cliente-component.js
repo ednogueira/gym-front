@@ -101,6 +101,7 @@ class EditClienteComponent extends Component {
     }
 
     getSelectedItem(){
+        // eslint-disable-next-line array-callback-return
         const item = estados.find((opt) => {
           if (opt.value === this.state.uf)
             return opt;

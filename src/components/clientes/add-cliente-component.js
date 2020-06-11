@@ -42,7 +42,7 @@ class AddClienteComponent extends Component {
     saveCliente = (e) => {
         e.preventDefault();
         const endereco = { cep: this.state.cep, rua: this.state.rua, numero: this.state.numero, complemento: this.state.complemento, 
-            bairro: this.state.bairro, cidade: this.state.cidade, uf: this.state.uf,}
+            bairro: this.state.bairro, cidade: this.state.cidade, uf: this.state.uf,};
         const cliente = { nome: this.state.nome, sobrenome: this.state.sobrenome, cpf: this.state.cpf, rg: this.state.rg,  
             telefone: this.state.telefone, tipoPlano: this.state.tipoPlano, endereco: endereco};
         console.log(cliente.endereco.uf);

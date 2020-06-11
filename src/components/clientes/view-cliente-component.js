@@ -6,6 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { withSnackbar } from 'notistack';
 import EditIcon from '@material-ui/icons/Edit';
 import DadosTabs from "../dados-tab-component";
+import Alert from '@material-ui/lab/Alert';
 
 function estadoToFlag(isoCode) {
     return typeof String.fromCodePoint !== 'undefined'
@@ -77,6 +78,7 @@ class ViewClienteComponent extends Component {
 
 
     getSelectedItem(){
+        // eslint-disable-next-line array-callback-return
         const item = estados.find((opt) => {
           if (opt.value === this.state.uf)
             return opt;
@@ -95,20 +97,23 @@ class ViewClienteComponent extends Component {
 
     render() {
 
+        const planoAtual = this.state.tipoPlano;
+
         return (
             <div>
                 <div style={{ margin: "auto", width: "60%", padding: "10px"}}>
-                <DadosTabs/>
+                    <DadosTabs tabs-initialSelectedIndex={"0"} />
                 </div>
 
                 {/* <Typography variant="h4" style={style}>Dados do Cliente</Typography> */}
-
+                
                 <form style={formContainer}>
-
+                    <br></br>
                     <TextField label="Matricula" margin="normal" name="id" value={this.state.id} 
                         style={{ height }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }),},}}
                         inputProps={{ readOnly: true, style: { height, padding: '0 14px',},}}
                     onChange={this.onChange} />
+                    <div style={{ margin: "auto", width: "60%", padding: "10px" }}><Alert variant="filled" margin="normal" style={{width: "40%"}} severity="info">Plano contrado: {planoAtual}</Alert></div>    
                     <div style={{  position: "absolute", right: 400}}>
                         <Fab color="primary" aria-label="add" onClick={() => this.editCliente(this.state.id)}>
                             <EditIcon />
@@ -226,6 +231,7 @@ const formContainer = {
     flexFlow: 'wrap'
 };
 
+// eslint-disable-next-line no-unused-vars
 const style = {
     display: 'flex',
     justifyContent: 'center'

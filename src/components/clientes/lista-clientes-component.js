@@ -187,10 +187,6 @@ class ListaClientesComponent extends Component {
                             onChange={this.handleChange('findCliente')}
                             style={{ height }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
                             inputProps={{ style: { height, padding: '0 10px', }, }} />
-                        {/* <TextField margin="normal" id="clientePorCpf" label="CPF" fullWidth value={clientePorCpf}
-                            onChange={this.handleChange('clientePorCpf')}
-                            style={{ height }} InputLabelProps={{ style: { height, ...(!focused && { top: `${labelOffset}px` }), }, }}
-                            inputProps={{ style: { height, padding: '0 10px', }, }} /> */}
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => this.handleClickCloseBuscar()} color="primary">
