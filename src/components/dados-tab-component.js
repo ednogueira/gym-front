@@ -38,6 +38,12 @@ const DadosTabs = props => {
     history.push('/pagamentos');
   }
 
+  const viewFerias = (id) => {
+    setActiveTab(1);
+    window.localStorage.setItem("clienteId", id);
+    history.push('/ferias');
+  }    
+
 
   return (
     <Paper square className={classes.root}>
@@ -51,7 +57,7 @@ const DadosTabs = props => {
       >
         <Tab icon={<PersonPinIcon />} label="Dados" onClick={() => viewCliente(window.localStorage.getItem("clienteId"))} />
         <Tab icon={<PaymentIcon />} label="pagamentos" onClick={() => viewPagamentos(window.localStorage.getItem("clienteId"))}/>
-        <Tab icon={<FlightIcon />} label="férias" />
+        <Tab icon={<FlightIcon />} label="férias" onClick={() => viewFerias(window.localStorage.getItem("clienteId"))}/>
       </Tabs>
     </Paper>
   );

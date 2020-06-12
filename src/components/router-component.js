@@ -10,7 +10,8 @@ import ViewCliente from "../components/clientes/view-cliente-component";
 import ListaPagamentos from "../components/pagamentos/lista-pagamentos-component";
 import AddPagamento from "../components/pagamentos/add-pagamento-component";
 import EditPagamento from "../components/pagamentos/edit-pagamento-component";
-
+import ListaFerias from "../components/ferias/lista-ferias-component";
+import AddFerias from "../components/ferias/add-ferias-component";
 
 const AppRouter = () => {
 
@@ -29,6 +30,8 @@ const AppRouter = () => {
                 <Route path="/pagamentos" component={ListaPagamentos} />
                 <Route path="/add-pagamento" component={AddPagamento} />
                 <Route path="/edit-pagamento" component={EditPagamento} />
+                <Route path="/ferias" component={ListaFerias} />
+                <Route path="/add-ferias" component={AddFerias} />
             </Switch>
         </div>
     )

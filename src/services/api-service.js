@@ -72,7 +72,27 @@ class ApiService {
     return axios.put(API_URL + 'pagamentos/' + idPagamento + '?idCliente=' + idCliente + '&plano=' + plano, pagamento, {headers : authHeader() });
   }
 
-
+    /* SERVIÇOS DISPONÍVEIS PARA CONSULTA E GESTÃO DO MODELO: FÉRIAS */
+    fetchFerias(clienteId) {
+      return axios.get(API_URL + 'ferias/' +clienteId, {headers : authHeader() });
+    }
+  
+    fetchFeriasById(feriasId) {
+      return axios.get(API_URL + 'ferias?idFerias=' + feriasId, {headers : authHeader() });
+    }
+  
+    fetchFeriasByDate(dataFinal, dataInicial, clienteId) {
+      return axios.get(API_URL + 'ferias/buscar/?dataFinal=' + dataFinal + '&dataInicial=' + dataInicial + '&idCliente=' + clienteId, {headers : authHeader() });
+    }
+  
+    deleteFerias(feriasId){
+      return axios.delete(API_URL + 'ferias/delete/' + feriasId, {headers : authHeader() });
+    }
+  
+    addFerias(clienteId, ferias){
+      return axios.post(API_URL + 'ferias?idCliente=' + clienteId, ferias, {headers : authHeader()})
+    }
+  
 }
 
 export default new ApiService();
