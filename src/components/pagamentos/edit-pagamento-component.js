@@ -40,7 +40,6 @@ class EditPagamentoComponent extends Component {
                 dataPagamento: pagamento.dataPagamento,
                 formaPagamento: pagamento.formaPagamento,
                 valor: pagamento.valor,
-                tipoPlano: pagamento.tipoPlano,
                 })
             })
     }
